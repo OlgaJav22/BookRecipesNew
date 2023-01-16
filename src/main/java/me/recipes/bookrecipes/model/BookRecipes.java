@@ -8,7 +8,5 @@ import lombok.Data;
 public class BookRecipes {
     private String name;
     private int cookingTime;
-    private Ingredients ingredients[];
-
-
+    private String ingredients;
 }

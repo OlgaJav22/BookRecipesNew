@@ -1,26 +1,24 @@
 package me.recipes.bookrecipes.contpollers;
 
 import me.recipes.bookrecipes.model.BookRecipes;
+import me.recipes.bookrecipes.services.RecipesService;
 import me.recipes.bookrecipes.services.impl.RecipesServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/recipes")
 public class RecipesController {
-    private final RecipesServiceImpl recipesService;
-
-    public RecipesController(RecipesServiceImpl recipesService) {
-        this.recipesService = recipesService;
-    }
+    private RecipesService recipesService;
 
     @GetMapping
-    public String BookRecipes() {
+    public String BookRecipes () {
         return "Книга рецептов";
     }
 
-    @GetMapping("/id")
-    public ResponseEntity getRecipes(@PathVariable long lastId) {
+    @GetMapping ("/id")
+    public ResponseEntity<BookRecipes> getRecipes (@PathVariable long lastId) {
         BookRecipes bookRecipes = recipesService.getRecipes(lastId);
         if (bookRecipes == null) {
             return ResponseEntity.notFound().build();
@@ -28,11 +26,13 @@ public class RecipesController {
         return ResponseEntity.ok(bookRecipes);
     }
 
-    @PutMapping("/app")
-
-    public ResponseEntity appNewRecipes(@RequestBody BookRecipes bookRecipes) {
-        BookRecipes bookRecipes1 = recipesService.appNewRecipes(bookRecipes);
-        return ResponseEntity.ok(bookRecipes1);
+    @PostMapping("/add")
+    public ResponseEntity<BookRecipes> addNewRecipes (@RequestBody BookRecipes bookRecipes) throws Exception {
+        BookRecipes bookRecipes1 = recipesService.addNewRecipes(bookRecipes);
+        if (bookRecipes1 == null) {
+            throw new Exception();
+        } else {
+            return new ResponseEntity<>(bookRecipes1, HttpStatus.CREATED);
+        }
     }
-
 }

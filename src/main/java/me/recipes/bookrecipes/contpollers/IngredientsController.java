@@ -1,21 +1,19 @@
 package me.recipes.bookrecipes.contpollers;
 
 import me.recipes.bookrecipes.model.Ingredients;
+import me.recipes.bookrecipes.services.RecipesService;
 import me.recipes.bookrecipes.services.impl.IngredientsServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ingredients")
 public class IngredientsController {
-    private final IngredientsServiceImpl ingredientsService;
-
-    public IngredientsController(IngredientsServiceImpl ingredientsService) {
-        this.ingredientsService = ingredientsService;
-    }
+    private RecipesService ingredientsService;
 
     @GetMapping("/countId")
-    public ResponseEntity getIngredients(@PathVariable long countId) {
+    public ResponseEntity<Ingredients> getIngredients(@PathVariable long countId) {
         Ingredients ingredients = ingredientsService.getIngredients(countId);
         if (ingredients == null) {
             return ResponseEntity.notFound().build();
@@ -23,10 +21,13 @@ public class IngredientsController {
         return ResponseEntity.ok(ingredients);
     }
 
-    @PutMapping("/app")
-
-    public ResponseEntity appNewRecipes(@RequestBody Ingredients ingredients) {
-        Ingredients ingredients1 = ingredientsService.appNewIngredients(ingredients);
-        return ResponseEntity.ok(ingredients1);
+    @PostMapping("/add")
+    public ResponseEntity<Ingredients> addNewRecipes(@RequestBody Ingredients ingredients) throws Exception {
+        Ingredients ingredients1 = ingredientsService.addNewIngredients(ingredients);
+        if (ingredients1 == null) {
+            throw new Exception();
+        } else {
+            return new ResponseEntity<>(ingredients1, HttpStatus.CREATED);
+        }
     }
 }
