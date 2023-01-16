@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.ServerException;
+
 @RestController
 @RequestMapping("/ingredients")
 public class IngredientsController {
@@ -25,7 +27,7 @@ public class IngredientsController {
     public ResponseEntity<Ingredients> addNewRecipes(@RequestBody Ingredients ingredients) throws Exception {
         Ingredients ingredients1 = ingredientsService.addNewIngredients(ingredients);
         if (ingredients1 == null) {
-            throw new Exception();
+            throw new ServerException("Некорректные данные");
         } else {
             return new ResponseEntity<>(ingredients1, HttpStatus.CREATED);
         }
