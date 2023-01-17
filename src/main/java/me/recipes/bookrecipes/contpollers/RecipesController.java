@@ -13,7 +13,11 @@ import java.rmi.ServerException;
 @RestController
 @RequestMapping("/recipes")
 public class RecipesController {
-    private RecipesService recipesService;
+    private final RecipesService recipesService;
+
+    public RecipesController(RecipesService recipesService) {
+        this.recipesService = recipesService;
+    }
 
     @GetMapping
     public String BookRecipes() {

@@ -13,9 +13,13 @@ import java.rmi.ServerException;
 @RestController
 @RequestMapping("/ingredients")
 public class IngredientsController {
-    private IngredientsService ingredientsService;
+    private final IngredientsService ingredientsService;
 
-    @GetMapping("/countId")
+    public IngredientsController(IngredientsService ingredientsService) {
+        this.ingredientsService = ingredientsService;
+    }
+
+    @GetMapping("/{countId}")
     public ResponseEntity<Ingredients> getIngredients(@PathVariable long countId) {
         Ingredients ingredients = ingredientsService.getIngredients(countId);
         if (ingredients == null) {
