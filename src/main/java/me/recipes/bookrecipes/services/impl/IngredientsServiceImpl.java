@@ -15,7 +15,7 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public Ingredients addNewIngredients(Ingredients ingredients) {
-        ingredientsMap.getOrDefault(countId++, ingredients);
+        ingredientsMap.put(countId++, ingredients);
         return ingredients;
     }
 

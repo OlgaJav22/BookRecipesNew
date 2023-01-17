@@ -16,13 +16,13 @@ public class RecipesController {
     private RecipesService recipesService;
 
     @GetMapping
-    public String BookRecipes () {
+    public String BookRecipes() {
         return "Книга рецептов";
     }
 
-    @GetMapping ("/id")
-    public ResponseEntity<BookRecipes> getRecipes (@PathVariable long lastId) {
-        BookRecipes bookRecipes = recipesService.getRecipes(lastId);
+    @GetMapping("/{id}")
+    public ResponseEntity<BookRecipes> getRecipes(@PathVariable long id) {
+        BookRecipes bookRecipes = recipesService.getRecipes(id);
         if (bookRecipes == null) {
             return ResponseEntity.notFound().build();
         }
@@ -30,7 +30,7 @@ public class RecipesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<BookRecipes> addNewRecipes (@RequestBody BookRecipes bookRecipes) throws Exception {
+    public ResponseEntity<BookRecipes> addNewRecipes(@RequestBody BookRecipes bookRecipes) throws Exception {
         BookRecipes bookRecipes1 = recipesService.addNewRecipes(bookRecipes);
         if (bookRecipes1 == null) {
             throw new ServerException("Некорректные данные");

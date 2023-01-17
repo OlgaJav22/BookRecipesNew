@@ -16,7 +16,7 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public BookRecipes addNewRecipes(BookRecipes bookRecipes) {
-        bookRecipesMap.getOrDefault(lastId++, bookRecipes);
+        bookRecipesMap.put(lastId++, bookRecipes);
         return bookRecipes;
     }
 
