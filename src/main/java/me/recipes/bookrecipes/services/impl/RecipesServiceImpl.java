@@ -25,13 +25,4 @@ public class RecipesServiceImpl implements RecipesService {
         return bookRecipesMap.get(id);
     }
 
-    @Override
-    public Ingredients addNewIngredients(Ingredients ingredients) {
-        return null;
-    }
-
-    @Override
-    public Ingredients getIngredients(long id) {
-        return null;
-    }
 }

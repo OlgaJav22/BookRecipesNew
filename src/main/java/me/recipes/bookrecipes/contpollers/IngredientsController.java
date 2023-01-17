@@ -1,6 +1,7 @@
 package me.recipes.bookrecipes.contpollers;
 
 import me.recipes.bookrecipes.model.Ingredients;
+import me.recipes.bookrecipes.services.IngredientsService;
 import me.recipes.bookrecipes.services.RecipesService;
 import me.recipes.bookrecipes.services.impl.IngredientsServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import java.rmi.ServerException;
 @RestController
 @RequestMapping("/ingredients")
 public class IngredientsController {
-    private RecipesService ingredientsService;
+    private IngredientsService ingredientsService;
 
     @GetMapping("/countId")
     public ResponseEntity<Ingredients> getIngredients(@PathVariable long countId) {
