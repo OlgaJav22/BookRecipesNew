@@ -2,8 +2,6 @@ package me.recipes.bookrecipes.contpollers;
 
 import me.recipes.bookrecipes.model.Ingredients;
 import me.recipes.bookrecipes.services.IngredientsService;
-import me.recipes.bookrecipes.services.RecipesService;
-import me.recipes.bookrecipes.services.impl.IngredientsServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +35,28 @@ public class IngredientsController {
             return new ResponseEntity<>(ingredients1, HttpStatus.CREATED);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Ingredients> editIngredients(@PathVariable long id, @RequestBody Ingredients ingredients) {
+        Ingredients ingredients1 = ingredientsService.editIngredients(id, ingredients);
+        if (ingredients1 == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ingredients1);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIngredients(@PathVariable long id) {
+        if (ingredientsService.deleteIngredients(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Void> getAllIngredients() {
+        ingredientsService.getAllIngredients();
+        return ResponseEntity.ok().build();
+    }
+
 }

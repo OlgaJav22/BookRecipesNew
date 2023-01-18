@@ -1,6 +1,7 @@
 package me.recipes.bookrecipes.contpollers;
 
 import me.recipes.bookrecipes.model.BookRecipes;
+import me.recipes.bookrecipes.model.Ingredients;
 import me.recipes.bookrecipes.services.RecipesService;
 import me.recipes.bookrecipes.services.impl.RecipesServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,28 @@ public class RecipesController {
         } else {
             return new ResponseEntity<>(bookRecipes1, HttpStatus.CREATED);
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookRecipes> editRecipes(@PathVariable long id, @RequestBody BookRecipes bookRecipes) {
+        BookRecipes bookRecipes1 = recipesService.editRecipes(id, bookRecipes);
+        if (bookRecipes1 == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bookRecipes1);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRecipes(@PathVariable long id) {
+        if (recipesService.deleteRecipes(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Void> getAllRecipes() {
+        recipesService.getAllRecipes();
+        return ResponseEntity.ok().build();
     }
 }

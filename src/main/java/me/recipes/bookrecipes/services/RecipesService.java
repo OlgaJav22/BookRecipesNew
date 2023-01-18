@@ -8,4 +8,10 @@ public interface RecipesService {
     BookRecipes addNewRecipes(BookRecipes bookRecipes);
 
     BookRecipes getRecipes(long id);
+
+    BookRecipes editRecipes(long id, BookRecipes bookRecipes);
+
+    boolean deleteRecipes(long id);
+
+    void getAllRecipes();
 }
