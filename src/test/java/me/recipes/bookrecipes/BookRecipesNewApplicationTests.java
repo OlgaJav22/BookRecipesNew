@@ -1,4 +1,4 @@
-package me.recipes.bookrecipesnew;
+package me.recipes.bookrecipes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
