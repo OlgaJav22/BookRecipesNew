@@ -65,7 +65,7 @@ public class RecipesController {
     }
 
     @GetMapping("/All")
-    @Operation ( summary = "Вывод всех рецептов",
+    @Operation ( summary = "Поиск всех рецептов",
             description = "выводит сразу все наименования")
     public ResponseEntity<Void> getAllRecipes() {
         recipesService.getAllRecipes();
