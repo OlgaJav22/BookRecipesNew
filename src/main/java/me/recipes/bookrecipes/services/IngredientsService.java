@@ -2,6 +2,8 @@ package me.recipes.bookrecipes.services;
 
 import me.recipes.bookrecipes.model.Ingredients;
 
+import java.util.Collection;
+
 public interface IngredientsService {
 
     Ingredients addNewIngredients(Ingredients ingredients);
@@ -12,5 +14,5 @@ public interface IngredientsService {
 
     boolean deleteIngredients(long id);
 
-    void getAllIngredients();
+    Collection<Ingredients> getAllIngredients();
 }

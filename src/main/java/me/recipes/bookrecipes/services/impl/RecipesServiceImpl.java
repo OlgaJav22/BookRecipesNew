@@ -4,6 +4,8 @@ import me.recipes.bookrecipes.model.BookRecipes;
 import me.recipes.bookrecipes.services.RecipesService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,7 +17,9 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public BookRecipes addNewRecipes(BookRecipes bookRecipes) {
-        bookRecipesMap.put(lastId++, bookRecipes);
+        if (!bookRecipes.getName().isEmpty()) {
+            bookRecipesMap.put(lastId++, bookRecipes);
+        }
         return bookRecipes;
     }
 
@@ -43,11 +47,8 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public void getAllRecipes() {
-        bookRecipesMap.forEach((key, value) -> {
-            key.toString();
-            value.toString();
-        });
+    public Collection<BookRecipes> getAllRecipes() {
+        return Collections.unmodifiableCollection(bookRecipesMap.values());
     }
 
 }

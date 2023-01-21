@@ -4,6 +4,8 @@ import me.recipes.bookrecipes.model.Ingredients;
 import me.recipes.bookrecipes.services.IngredientsService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,7 +17,9 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public Ingredients addNewIngredients(Ingredients ingredients) {
-        ingredientsMap.put(countId++, ingredients);
+        if (!ingredients.getNameIngredients().isEmpty()) {
+            ingredientsMap.put(countId++, ingredients);
+        }
         return ingredients;
     }
 
@@ -43,10 +47,8 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
     @Override
-    public void getAllIngredients() {
-        for (Map.Entry current : ingredientsMap.entrySet()) {
-            System.out.println(current.getKey() + ":" + current.getValue());
-        }
+    public Collection<Ingredients> getAllIngredients() {
+        return Collections.unmodifiableCollection(ingredientsMap.values());
     }
 
 }

@@ -1,5 +1,6 @@
 package me.recipes.bookrecipes.contpollers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.recipes.bookrecipes.model.Ingredients;
 import me.recipes.bookrecipes.services.IngredientsService;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.ServerException;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/ingredients")
@@ -20,6 +22,7 @@ public class IngredientsController {
     }
 
     @GetMapping("/{countId}")
+    @Operation(summary = "Получение необходимого ингредиента", description = "вводим нужный id")
     public ResponseEntity<Ingredients> getIngredients(@PathVariable long countId) {
         Ingredients ingredients = ingredientsService.getIngredients(countId);
         if (ingredients == null) {
@@ -29,6 +32,7 @@ public class IngredientsController {
     }
 
     @PostMapping("/add")
+    @Operation(summary = "Добавление нового ингредиента", description = "каждому ингредиенту присваивается уникальный номер - id")
     public ResponseEntity<Ingredients> addNewRecipes(@RequestBody Ingredients ingredients) throws Exception {
         Ingredients ingredients1 = ingredientsService.addNewIngredients(ingredients);
         if (ingredients1 == null) {
@@ -39,6 +43,7 @@ public class IngredientsController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Внесение изменений в существующий ингредиент", description = "посик по id")
     public ResponseEntity<Ingredients> editIngredients(@PathVariable long id, @RequestBody Ingredients ingredients) {
         Ingredients ingredients1 = ingredientsService.editIngredients(id, ingredients);
         if (ingredients1 == null) {
@@ -48,6 +53,7 @@ public class IngredientsController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Удаление необходимого ингредиента", description = "поиск нужного ингредиента по id")
     public ResponseEntity<Void> deleteIngredients(@PathVariable long id) {
         if (ingredientsService.deleteIngredients(id)) {
             return ResponseEntity.ok().build();
@@ -56,9 +62,9 @@ public class IngredientsController {
     }
 
     @GetMapping
-    public ResponseEntity<Void> getAllIngredients() {
-        ingredientsService.getAllIngredients();
-        return ResponseEntity.ok().build();
+    @Operation(summary = "Получение всего списка ингредиентов", description = "никакие параметры вводить не надо")
+    public Collection<Ingredients> getAllIngredients() {
+        return ingredientsService.getAllIngredients();
     }
 
 }

@@ -1,7 +1,8 @@
 package me.recipes.bookrecipes.services;
 
 import me.recipes.bookrecipes.model.BookRecipes;
-import me.recipes.bookrecipes.model.Ingredients;
+
+import java.util.Collection;
 
 public interface RecipesService {
 
@@ -13,5 +14,5 @@ public interface RecipesService {
 
     boolean deleteRecipes(long id);
 
-    void getAllRecipes();
+    Collection<BookRecipes> getAllRecipes();
 }
