@@ -1,5 +1,7 @@
 package me.recipes.bookrecipes.contpollers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.recipes.bookrecipes.model.BookRecipes;
 import me.recipes.bookrecipes.model.Ingredients;
 import me.recipes.bookrecipes.services.RecipesService;
@@ -13,6 +15,7 @@ import java.rmi.ServerException;
 
 @RestController
 @RequestMapping("/recipes")
+@Tag(name = "Рецепты", description = "CRUD - операции для работы с рецептами")
 public class RecipesController {
     private final RecipesService recipesService;
 
@@ -61,9 +64,11 @@ public class RecipesController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping
+    @GetMapping("/All")
+    @Operation ( summary = "Вывод всех рецептов",
+            description = "выводит сразу все наименования")
     public ResponseEntity<Void> getAllRecipes() {
         recipesService.getAllRecipes();
         return ResponseEntity.ok().build();
-    }
+   }
 }
