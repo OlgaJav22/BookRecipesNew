@@ -44,9 +44,10 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public void getAllRecipes() {
-        for (Map.Entry current : bookRecipesMap.entrySet()) {
-            System.out.println(current.getKey() + ":" + current.getValue());
-        }
+        bookRecipesMap.forEach((key, value) -> {
+            key.toString();
+            value.toString();
+        });
     }
 
 }

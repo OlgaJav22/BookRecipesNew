@@ -1,5 +1,6 @@
 package me.recipes.bookrecipes.contpollers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.recipes.bookrecipes.model.Ingredients;
 import me.recipes.bookrecipes.services.IngredientsService;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import java.rmi.ServerException;
 
 @RestController
 @RequestMapping("/ingredients")
+@Tag(name = "Ингредиенты", description = "Crud - операции для работы с ингредиентами")
 public class IngredientsController {
     private final IngredientsService ingredientsService;
 
