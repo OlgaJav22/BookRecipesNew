@@ -1,6 +1,10 @@
 package me.recipes.bookrecipes.services.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.recipes.bookrecipes.model.BookRecipes;
+import me.recipes.bookrecipes.services.FileService;
 import me.recipes.bookrecipes.services.RecipesService;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +16,21 @@ import java.util.Map;
 @Service
 public class RecipesServiceImpl implements RecipesService {
 
+    final private FileService fileService;
+
     private static long lastId = 0;
     private static Map<Long, BookRecipes> bookRecipesMap = new LinkedHashMap<>();
+
+    public RecipesServiceImpl(FileService fileService) {
+        this.fileService = fileService;
+    }
+
 
     @Override
     public BookRecipes addNewRecipes(BookRecipes bookRecipes) {
         if (!bookRecipes.getName().isEmpty()) {
             bookRecipesMap.put(lastId++, bookRecipes);
+            saveToFile();
         }
         return bookRecipes;
     }
@@ -32,6 +44,7 @@ public class RecipesServiceImpl implements RecipesService {
     public BookRecipes editRecipes(long id, BookRecipes bookRecipes) {
         if (bookRecipesMap.containsKey(id)) {
             bookRecipesMap.put(id, bookRecipes);
+            saveToFile();
             return bookRecipes;
         }
         return null;
@@ -49,6 +62,25 @@ public class RecipesServiceImpl implements RecipesService {
     @Override
     public Collection<BookRecipes> getAllRecipes() {
         return Collections.unmodifiableCollection(bookRecipesMap.values());
+    }
+
+    private void saveToFile() {
+        try {
+            String json = new ObjectMapper().writeValueAsString(bookRecipesMap);
+            fileService.saveToFile(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void readFromFile() {
+        String json = fileService.readerFromFile();
+        try {
+            bookRecipesMap = new ObjectMapper().readValue(json, new TypeReference<LinkedHashMap<Long, BookRecipes>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
