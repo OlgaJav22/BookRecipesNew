@@ -1,6 +1,6 @@
 package me.recipes.bookrecipes.services.impl;
 
-import me.recipes.bookrecipes.services.FileService;
+import me.recipes.bookrecipes.services.FileRecipesService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class FileRecipesServiceImpl implements FileRecipesService {
     @Value("${path.to.data.file}")
     private String dataFilePath;
     @Value("${name.of.data.file}")
@@ -22,6 +22,7 @@ public class FileServiceImpl implements FileService {
             Files.writeString(Path.of(dataFilePath, dataFileName), json);
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -31,7 +32,7 @@ public class FileServiceImpl implements FileService {
         try {
            return Files.readString(Path.of(dataFilePath, dataFileName));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Файл не найден");
         }
     }
 
@@ -44,6 +45,7 @@ public class FileServiceImpl implements FileService {
             Files.createFile(path);
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }

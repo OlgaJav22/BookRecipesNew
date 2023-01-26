@@ -1,6 +1,6 @@
 package me.recipes.bookrecipes.services;
 
-public interface FileService {
+public interface FileIngredientsService {
     boolean saveToFile(String json);
 
     String readerFromFile();

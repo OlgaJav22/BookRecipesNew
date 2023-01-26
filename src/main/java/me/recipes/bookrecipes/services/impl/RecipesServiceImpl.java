@@ -4,10 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.recipes.bookrecipes.model.BookRecipes;
-import me.recipes.bookrecipes.services.FileService;
+import me.recipes.bookrecipes.services.FileRecipesService;
 import me.recipes.bookrecipes.services.RecipesService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -16,12 +17,12 @@ import java.util.Map;
 @Service
 public class RecipesServiceImpl implements RecipesService {
 
-    final private FileService fileService;
+    final private FileRecipesService fileService;
 
     private static long lastId = 0;
     private static Map<Long, BookRecipes> bookRecipesMap = new LinkedHashMap<>();
 
-    public RecipesServiceImpl(FileService fileService) {
+    public RecipesServiceImpl(FileRecipesService fileService) {
         this.fileService = fileService;
     }
 
@@ -64,12 +65,17 @@ public class RecipesServiceImpl implements RecipesService {
         return Collections.unmodifiableCollection(bookRecipesMap.values());
     }
 
+    @PostConstruct
+    private void init() {
+        readFromFile();
+    }
+
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(bookRecipesMap);
             fileService.saveToFile(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при записи файла");
         }
     }
 
@@ -79,7 +85,7 @@ public class RecipesServiceImpl implements RecipesService {
             bookRecipesMap = new ObjectMapper().readValue(json, new TypeReference<LinkedHashMap<Long, BookRecipes>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при чтении файла");
         }
     }
 
