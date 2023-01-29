@@ -1,0 +1,12 @@
+{
+  "0": {
+    "nameIngredients": "Молоко жирность 3,5",
+    "amount": 0,
+    "measureUnit": "string"
+  },
+  "1": {
+    "nameIngredients": "Бананы",
+    "amount": 5,
+    "measureUnit": "шт"
+  }
+}
