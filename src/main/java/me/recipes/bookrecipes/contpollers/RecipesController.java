@@ -69,9 +69,9 @@ public class RecipesController {
     }
 
     @GetMapping("/All")
-    @Operation( summary = "Поиск всех рецептов",
+    @Operation(summary = "Поиск всех рецептов",
             description = "выводит сразу все наименования")
     public Collection<BookRecipes> getAllRecipes() {
         return recipesService.getAllRecipes();
-   }
+    }
 }
