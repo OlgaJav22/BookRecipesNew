@@ -1,5 +1,6 @@
 package me.recipes.bookrecipes.contpollers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.recipes.bookrecipes.services.FileIngredientsService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.InputStreamResource;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 
 @RestController
 @RequestMapping("/fileIngredients")
+@Tag(name = "Файлы ингредиентов", description = "Готовые файлы для скачивания")
 public class FilesIngredientsController {
     private final FileIngredientsService fileIngredientsService;
 
