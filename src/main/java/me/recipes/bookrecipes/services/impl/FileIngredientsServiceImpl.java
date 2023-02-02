@@ -4,6 +4,7 @@ import me.recipes.bookrecipes.services.FileIngredientsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,6 +30,11 @@ public class FileIngredientsServiceImpl implements FileIngredientsService {
     }
 
     @Override
+    public File getDataFile() {
+        return new File(ingredientFilePath + "/" + ingredientFileName);
+    }
+
+    @Override
     public String readerFromFile() {
         try {
             return Files.readString(Path.of(ingredientFilePath, ingredientFileName));
@@ -36,7 +42,9 @@ public class FileIngredientsServiceImpl implements FileIngredientsService {
             throw new RuntimeException("Файл не найден");
         }
     }
-    private boolean cleanDataFile() {
+
+    @Override
+    public boolean cleanDataFile() {
         try {
             Path path = Path.of(ingredientFilePath, ingredientFileName);
 
