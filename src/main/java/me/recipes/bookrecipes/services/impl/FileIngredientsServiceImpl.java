@@ -28,10 +28,12 @@ public class FileIngredientsServiceImpl implements FileIngredientsService {
             return false;
         }
     }
+
     @Override
     public File getDataFile() {
         return new File(ingredientFilePath + "/" + ingredientFileName);
     }
+
     @Override
     public String readerFromFile() {
         try {
@@ -40,6 +42,7 @@ public class FileIngredientsServiceImpl implements FileIngredientsService {
             throw new RuntimeException("Файл не найден");
         }
     }
+
     @Override
     public boolean cleanDataFile() {
         try {

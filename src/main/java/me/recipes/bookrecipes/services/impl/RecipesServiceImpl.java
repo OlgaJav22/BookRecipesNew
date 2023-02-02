@@ -9,10 +9,12 @@ import me.recipes.bookrecipes.services.RecipesService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
 
 @Service
 public class RecipesServiceImpl implements RecipesService {
@@ -67,7 +69,25 @@ public class RecipesServiceImpl implements RecipesService {
 
     @PostConstruct
     private void init() {
-        readFromFile();
+
+        try {
+            readFromFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Path createRecipesBook() throws IOException {
+
+        Path path = fileService.createTempFile("recipesBook");
+        for (BookRecipes recipes : bookRecipesMap.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append("'" + recipes.getName() + "'" + "\n" + " время приготовления: " + recipes.getCookingTime() + " минут, " + "список ингредиентов {" + recipes.getIngredients() + "}.");
+                writer.append("\n=========================================================================================================\n");
+            }
+        }
+        return path;
     }
 
     private void saveToFile() {

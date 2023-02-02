@@ -4,13 +4,21 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.recipes.bookrecipes.model.BookRecipes;
 import me.recipes.bookrecipes.services.RecipesService;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.rmi.ServerException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/recipes")
@@ -73,5 +81,25 @@ public class RecipesController {
             description = "выводит сразу все наименования")
     public Collection<BookRecipes> getAllRecipes() {
         return recipesService.getAllRecipes();
+    }
+
+    @GetMapping("/Book")
+    @Operation(summary = "получение книги рецептов", description = "без параметров запроса")
+    public ResponseEntity <Object> getRecipesBook () {
+        try {
+            Path path = recipesService.createRecipesBook();
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            }
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentLength(Files.size(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"-book-recipes.txt\"")
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.toString());
+        }
     }
 }

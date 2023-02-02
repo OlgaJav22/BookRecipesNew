@@ -56,4 +56,13 @@ public class FileRecipesServiceImpl implements FileRecipesService {
         }
     }
 
+    @Override
+    public Path createTempFile(String syffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "tempFile", syffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
